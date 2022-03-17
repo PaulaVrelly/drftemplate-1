@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'drftemplate.urls'
+ROOT_URLCONF = 'crud.urls'
 
 TEMPLATES = [
     {
@@ -75,12 +75,27 @@ WSGI_APPLICATION = 'drftemplate.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'getTalent',
         'USER': 'squad',
         'PASSWORD': 'squad1',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
+}
+'''
+
+#Datos de BD de Irlanda
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'skills',
+        'USER': 'postgres',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432'
     }

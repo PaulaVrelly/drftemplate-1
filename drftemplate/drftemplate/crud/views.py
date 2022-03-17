@@ -1,6 +1,8 @@
 from os import stat
 from webbrowser import get
 from django.shortcuts import get_object_or_404
+from crud.serializers import RolSerializer
+from crud.serializers import UserSerializer
 
 from rest_framework import status
 from rest_framework.permissions import AllowAny
@@ -55,34 +57,52 @@ class RetrieveRols(APIView):
     permission_clases = (AllowAny,)
     
     def get(self, request):
-        roles_list = Rol.objects.all().values()
-        return Response(roles_list, status=status.HTTP_200_OK)
+        roles_list = Rol.objects.all()
+        serializer = RolSerializer(roles_list, many=True)
+        return Response(serializer.data)
     
 class CreateRols(APIView):
     permission_clases = (AllowAny,)
     
     def post(self, request):
+        serializer = RolSerializer(data=request.data)
+        #data = request.data
+        #serializer = Rol(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        '''
         roles_obj = Rol.objects.create(
         name = request.data.get('name',''),
         applicant = request.data.get('applicant',''),
         employer = request.data.get('employer',''))                             
         return Response({'mensage':'Creado'}, status=status.HTTP_201_CREATED)
-        
+        '''
     
 class RetrieveUsers(APIView):
     permission_clases = (AllowAny,)
     
     def get(self, request):
-        user_list = User.objects.all().values()
-        return Response(user_list)
+        user_list = User.objects.all()
+        serializer = UserSerializer(user_list, many=True)
+        return Response(serializer.data)
     
 class CreateUsers(APIView):
     permission_clases = (AllowAny,)
     
     def post(self, request):
-        user_obj = User.objects.create(
+        #data = request.data
+        #serializer = UserSerializer(data=data)
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data,  status=status.HTTP_201_CREATED)
+
+        '''
+        user_obj = User.objects.create()
         email = request.data.get('email',''),
         password = request.data.get('password',''),
         rol_id = request.data.get('rol',''))
         return Response({'mensage':'Creado'}, status=status.HTTP_201_CREATED)
-    
+        '''
